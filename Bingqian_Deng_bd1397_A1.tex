@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{DS-GA 1008: Deep Learning, Spring 2019 Homework Assignment 1}
+\author{Bingqian Deng }
+\date{February 15, 2019}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{Backprop}
+Backpropagation or “backward propagation through errors” is a method which calculates the gradient of the loss function of a neural network with respect to its weights.
+
+\subsection{Warm-up}
+Give an expression for $\frac { \partial L } { \partial \boldsybol { W } }$ and $\frac { \partial L } { \partial \boldsymbol{ b} }$ in terms of $\frac { \partial L } { \partial \boldsymbol { y } }$ and $\boldsymbol { x }$
+using the chain rule.\\
+
+\[x = \left[ \begin{array} { c } { x _ { 1 } } \\ { x _ { 2 } } \end{array} \right] \quad y = \left[ \begin{array} { l } { y _ { 1 } } \\ { y _ { 2 } } \end{array} \right] \quad W = \left[ \begin{array} { c c } { W _ { 11 } } & { W _ { 12 } } \\ { W _ { 21 } } & { W _ { 22 } } \end{array} \right] \quad b = \left[ \begin{array} { c } { b _ { 1 } } \\ { b _ { 2 } } \end{array} \right]\]
+\\
+\[\left[ \begin{array} { l } { y _ { 1 } } \\ { y _ { 2 } } \end{array} \right] = \left[ \begin{array} { c } { W _ { 11 } x _ { 1 } + W _ { 12 } x _ { 2 } + b _ { 1 } } \\ { W _ { 21 } x _ { 1 } + W _ { 22 } x _ { 2 } + b _ { 2 } } \end{array} \right]\]
+\\
+\[\frac { \partial L } { \partial y } = \left[ \frac { \partial L } { \partial y _ { 1 } } , \frac { \partial L } { \partial y _ { 2 } } \right]\]
+\\
+\[\frac { \partial y } { \partial b } = \left[ \begin{array} { c c } { \frac { \partial y _ { 1 } } { \partial b _ { 1 } } } & { \frac { \partial y _ { 1 } } { \partial b _ { 2 } } } \\ { \frac { \partial y _ { 2 } } { \partial b _ { 1 } } } & { \frac { \partial y _ { 2 } } { \partial b _ { 2 } } } \end{array} \right] = \left[ \begin{array} { l l } { 1 } & { 0 } \\ { 0 } & { 1 } \end{array} \right] = I _ { 2 \times 2 }\]
+\\
+\[\frac { \partial L } { \partial b } = \left[ \frac { \partial L } { \partial b _ { 1 } } \quad \frac { \partial L } { \partial b _ { 2 } } \right]= \frac { \partial L } { \partial y } \cdot \frac { \partial y } { \partial b } = \frac { \partial L } { \partial y } \cdot I = \frac { \partial L } { \partial y }\]
+
+
+\\
+\[\frac { \partial L } { \partial W _ { 11 } } = \frac { \partial L } { \partial y _ { 1 } } \cdot \frac { \partial y _ { 1 } } { \partial W _ { 11 } } + \frac { \partial L } { \partial y _ { 2 } } \cdot \frac { \partial y _ { 2 } } { \partial W _ { 11 } }  = \frac { \partial L } { \partial y _ { 1 } } \cdot x _ { 1 } + \frac { \partial L } { \partial y _ { 2 } } \cdot  0\]
+
+\[\begin{aligned} \frac { \partial L } { \partial W _ { 12 } } & = \frac { \partial L } { \partial y _ { 1 } } \cdot \frac { \partial y _ { 1 } } { \partial W _ { 12 } } + \frac { \partial L } { \partial y _ { 2 } } \cdot \frac { \partial y _ { 2 } } { \partial W _ { 12 } } \\ & = \frac { \partial L } { \partial y _ { 1 } } \cdot x _ { 2 } + \frac { \partial L } { \partial y _ { 2 } } \cdot 0 \end{aligned}\]
+\\
+
+\[\begin{aligned} \frac { \partial L } { \partial W _ { 21 } } & = \frac { \partial L } { \partial y _ { 1 } } \cdot \frac { \partial y _ { 1 } } { \partial W _ { 21 } } + \frac { \partial L } { \partial y _ { 2 } } \cdot \frac { \partial y _ { 2 } } { \partial W _ { 21 } } \\ & = \frac { \partial L } { \partial y _ { 1 } } \cdot 0 + \frac { \partial L } { \partial y _ { 2 } } \cdot x _ { 1 } \end{aligned}\]
+\\
+
+\[\begin{aligned} \frac { \partial L } { \partial W _ { 22 } } & = \frac { \partial L } { \partial y _ { 1 } } \cdot \frac { \partial y _ { 1 } } { \partial W _ { 22 } } + \frac { \partial L } { \partial y _ { 2 } } \cdot \frac { \partial y _ { 2 } } { \partial W _ { 22 } } \\ & = \frac { \partial L } { \partial y _ { 1 } } \cdot 0 + \frac { \partial L } { \partial y _ { 2 } } \cdot x _ { 2 } \end{aligned}\]
+\\
+\[\frac { \partial y } { \partial W } = \left[ \begin{array} { l l } { \frac { \partial y _ { 1 } } { \partial W _ { 11 } } } & { \frac { \partial y _ { 1 } } { \partial W _ { 12 } } } \\ { \frac { \partial y _ { 2 } } { \partial W _ { 11 } } } & { \frac { \partial y _ { 2 } } { \partial W _ { 12 } } } \end{array} \right \left. \begin{array} { c c } { \frac { \partial y _ { 1 } } { \partial W _ { 21 } } } & { \frac { \partial y _ { 1 } } { \partial W _ { 22 } } } \\ { \frac { \partial y _ { 2 } } { \partial W _ { 21 } } } & { \frac { \partial y _ { 2 } } { \partial W _ { 22 } } } \end{array} \right] = \left[ \begin{array} { l l l l } { x _ { 1 } } & { x _ { 2 } } & { 0 } & { 0 } \\ { 0 } & { 0 } & { x _ { 1 } } & { x _ { 2 } } \end{array} \right]\]
+
+
+\\
+\[\frac { \partial L } { \partial W } = \frac { \partial L } { \partial y } \cdot \frac { \partial y } { \partial W } = \frac { \partial L } { \partial y } \left[ \begin{array} { c c c c } { x _ { 1 } } & { x _ { 2 } } & { 0 } & { 0 } \\ { 0 } & { 0 } & { x _ { 1 } } & { x _ { 2 } } \end{array} \right]\]
+\\
+\\
+
+
+\subsection{Softmax}
+\\
+
+\\When $i = j$ :
+\[\frac { \partial y _ { i } } { \partial x _ { i } } = \frac { \partial y _ { i } } { \partial x _ { j } } = \frac { \left( \sum _ { k } \exp \left( \beta x _ { k } \right) \right) \left( \beta\cdot \exp \left( \beta x _ { j } \right) - \exp \left( \beta x _ { j } \right) \cdot \beta \cdot \exp \left( \beta x _ { j } \right) \right. } { \left( \sum _ { k } \exp \left( \beta x _ { k } \right) \right) ^ { 2 } }\]
+\[=\frac{\beta \cdot \exp \left( \beta \cdot x _ { j } \right) \left( \sum _ { k } \exp \left( \beta x _ { k } \right) - \exp \left( \beta x _ { j } \right) \right)}{\left( \sum _ { k } \exp \left( \beta x _ { k } \right) \right) ^ { 2 }}\]
+\\When $i \neq j$ :
+\[\frac { \partial y _ { j } } { \partial x _ { i } } = \frac { - \beta \cdot \exp \left( \beta x _ { j } \right) \cdot \exp \left( \beta x _ { i } \right) } { \left( \sum _ { k } \exp \left( \beta x _ { k } \right) \right) ^ { 2 } }\]
+\[= \frac { - \beta \exp \left( \beta \left( x _ { j } + x _ { i } \right) \right) } { \left( \sum _ { k } \exp \left( \beta x _ { k } \right) \right) ^ { 2 } }\]
+
+\end{document}
